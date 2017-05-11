@@ -1,0 +1,42 @@
+= smallClown docs
+
+== Schemas
+
+=== Small ESP8266 pinout
+
+image::http://www.cnx-software.com/wp-content/uploads/2015/10/NodeMCU_v0.9_Pinout.png[]
+
+=== Larger ESP8266 pinout
+
+image::http://cdn.frightanic.com/blog/wp-content/uploads/2015/09/esp8266-nodemcu-dev-kit-v2-pins.png[]
+
+=== Temperature DS18B20
+
+image::http://www.reuk.co.uk/OtherImages/raspberry-pi-ds18b20-connections.jpg[]
+
+
+== Codes
+
+* ds18B20 -- http://iot-playground.com/blog/2-uncategorised/41-esp8266-ds18b20-temperature-sensor-arduino-ide
+* better one for ds18b20 -- https://github.com/esp8266/Basic/blob/master/libraries/dallas-temperature-control/examples/Simple/Simple.pde
+* Node-Red -- MQTT -> InfluxDB -- http://jeanbrito.com/2016/02/24/saving-data-received-from-mqtt-to-influxdb-using-node-red/
+
+----
+var tokens = msg.topic.split("/");
+var dest = tokens[tokens.length-1];
+msg.url ="http://192.168.1.82:8086/write?db=temperatures";
+msg.payload = "temperature,room=" + tokens[2] + " temp=" + Number(msg.payload);
+return msg;
+----
+
+== Libraries
+
+* PubSubClient -- http://pubsubclient.knolleary.net/api.html
+* ArduinoJson -- https://github.com/bblanchon/ArduinoJson
+
+
+== Notes
+
+* python mqtt -- https://pypi.python.org/pypi/paho-mqtt/1.1#network-loop
+* https://github.com/esp8266/Basic
+
