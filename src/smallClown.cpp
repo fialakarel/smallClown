@@ -13,7 +13,7 @@
 #include "ktLibs/ktBLED.cpp"
 #include "ktLibs/ktWiFi.cpp"
 #include "ktLibs/ktDebug.cpp"
-#include "ktLibs/ktMQTT.cpp"
+//#include "ktLibs/ktMQTT.cpp"
 
 #define KEEPALIVE_LED_INTERVAL 10000
 
@@ -49,32 +49,6 @@ const char* ota_password = "salvatore";     // Password for OTA updates
 // classes
 WiFiClient espClient;
 PubSubClient client(espClient);
-
-void setup_mqtt() {
-  Serial.print("Setting up MQTT ...");
-  client.setServer(mqtt_server, mqtt_port);
-  client.setCallback(mqtt_callback);
-  Serial.println(" [DONE]");
-}
-
-void setup() {
-  pinMode(LED_BUILTIN, OUTPUT);
-  led.on();
-  Serial.begin(serial_speed);
-  Serial.println();              //Clear some garbage that may be printed to the serial console
-  Serial.print("\n\n\rBooting ");
-  ktWiFi(ssid, password);
-  ktOTA(ota_hostname, ota_password, ota_port);    // setup OTA updates
-  setup_mqtt();
-  debug.startup(MAC_ADDR, mqtt_server, mqtt_port, statusChannel, commandChannel);
-  lastBlink = millis();
-  Serial.println("\n\n\rReady");
-  led.off();
-}
-
-
-
-
 
 
 void mqtt_callback(char* topic, byte* payload, unsigned int length) {
@@ -114,6 +88,19 @@ void mqtt_reconnect() {
   }
 }
 
+void logic_readtemp() {
+  OneWire  oneWire(5);  // on pin 5 (a 4.7K resistor is necessary)
+  // Pass our oneWire reference to Dallas Temperature.
+  DallasTemperature sensors(&oneWire);
+  sensors.requestTemperatures();
+  float temp = sensors.getTempCByIndex(0);
+  const char* ch = "/temperature/bedroom";
+  char charVal[10];
+  dtostrf(temp, 8, 2, charVal); //
+  client.publish(ch, charVal);
+  //Serial.println(temp);
+}
+
 void alive() {
   //blink on-board led to signalize that the board is alive
   if ((millis() - lastBlink) > KEEPALIVE_LED_INTERVAL) {
@@ -130,19 +117,6 @@ void loop_handler() {
   }
   client.loop();
   alive();
-}
-
-void logic_readtemp() {
-  OneWire  oneWire(5);  // on pin 5 (a 4.7K resistor is necessary)
-  // Pass our oneWire reference to Dallas Temperature.
-  DallasTemperature sensors(&oneWire);
-  sensors.requestTemperatures();
-  float temp = sensors.getTempCByIndex(0);
-  const char* ch = "/temperature/bedroom";
-  char charVal[10];
-  dtostrf(temp, 8, 2, charVal); //
-  client.publish(ch, charVal);
-  //Serial.println(temp);
 }
 
 void pir() {
@@ -182,6 +156,30 @@ void l() {
     delay(100);
   } 
 }
+
+
+void setup_mqtt() {
+  Serial.print("Setting up MQTT ...");
+  client.setServer(mqtt_server, mqtt_port);
+  client.setCallback(mqtt_callback);
+  Serial.println(" [DONE]");
+}
+
+void setup() {
+  pinMode(LED_BUILTIN, OUTPUT);
+  led.on();
+  Serial.begin(serial_speed);
+  Serial.println();              //Clear some garbage that may be printed to the serial console
+  Serial.print("\n\n\rBooting ");
+  ktWiFi(ssid, password);
+  ktOTA(ota_hostname, ota_password, ota_port);    // setup OTA updates
+  setup_mqtt();
+  debug.startup(MAC_ADDR, mqtt_server, mqtt_port, statusChannel, commandChannel);
+  lastBlink = millis();
+  Serial.println("\n\n\rReady");
+  led.off();
+}
+
 
 void loop() {
   loop_handler();

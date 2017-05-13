@@ -1,7 +1,4 @@
-#ifndef HEADER_KTDEBUG
-
-#define HEADER_KTDEBUG
- 
+#include <Arduino.h> 
 
 /* ***** USAGE *****
 
@@ -32,5 +29,3 @@ class ktDebug{
 	}
 };
    
-#endif
-

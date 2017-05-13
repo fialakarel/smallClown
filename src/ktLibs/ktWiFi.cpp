@@ -1,6 +1,7 @@
-#ifndef HEADER_KTWIFI
+#include <Arduino.h>
+#include <ESP8266WiFi.h>
+#include <WiFiUdp.h>
 
-#define HEADER_KTWIFI
  
 /* ***** USAGE *****
 
@@ -25,6 +26,3 @@ class ktWiFi{
 	}
 };
    
-#endif
-
-

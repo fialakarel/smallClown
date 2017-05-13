@@ -1,7 +1,4 @@
-#ifndef HEADER_KTBLED
-
-#define HEADER_KTBLED
- 
+#include <Arduino.h> 
 
 /* ***** USAGE *****
 
@@ -34,5 +31,3 @@ class ktBLED{
 	}
 };
    
-#endif
-
