@@ -21,6 +21,8 @@ platform = espressif8266
 board = d1_mini
 framework = arduino
 build_flags = ${common.build_flags} -DSSID_NAME=HELLO -DSSID_PASWORD=WORLD
+upload_speed = 115200
+board_f_cpu = 160000000L
 lib_deps =
   ${common.lib_deps_builtin}
   ${common.lib_deps_external}
