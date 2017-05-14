@@ -23,8 +23,8 @@ const char* password = SSID_PASSWORD;
 String MAC_ADDR = WiFi.macAddress();
 
 // MQTT server
-const char* mqtt_server = "192.168.1.1";
-int mqtt_port = 1883;
+const char* mqtt_server = MQTT_IP;
+int mqtt_port = MQTT_PORT;
 const char* mqtt_clientID = &MAC_ADDR[0];   // set mqtt_clientID to MAC
 
 // Channels

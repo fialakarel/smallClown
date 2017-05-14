@@ -20,7 +20,7 @@ lib_deps_external = ArduinoJson@>5.6.0
 platform = espressif8266
 board = d1_mini
 framework = arduino
-build_flags = ${common.build_flags} -DSSID_NAME=HELLO -DSSID_PASWORD=WORLD
+build_flags = ${common.build_flags} -Wall '-DSSID_NAME="HELLO"' '-DSSID_PASSWORD="WORLD"' '-DMQTT_IP="192.168.1.1"' '-DMQTT_PORT=1883'
 upload_speed = 115200
 board_f_cpu = 160000000L
 lib_deps =
