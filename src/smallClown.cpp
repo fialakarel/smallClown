@@ -18,8 +18,8 @@
 #define KEEPALIVE_LED_INTERVAL 10000
 
 // WiFi settings
-const char* ssid = "ssid";
-const char* password = "pass";
+const char* ssid = SSID_NAME;
+const char* password = SSID_PASSWORD;
 String MAC_ADDR = WiFi.macAddress();
 
 // MQTT server
